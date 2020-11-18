@@ -15,10 +15,20 @@
     path: "/var/www/vhosts/{{ ansible_hostname }}"
     state: directory
 
-- name: deliver html content
-  copy:
-    src: web.html
+      #- name: deliver html content
+      #copy:
+      #src: web.html
+      #dest: "/var/www/vhosts/{{ ansible_hostname }}/index.html"
+
+- name: deliver template html from survey
+  template:
+    src: index.html.j2
     dest: "/var/www/vhosts/{{ ansible_hostname }}/index.html"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart_httpd
 
 - name: template vhost file
   template:
